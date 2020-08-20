@@ -15,9 +15,6 @@ var UIObjects;
             this.on("mouseout", this.MouseOut);
             this.Start();
         }
-        // PRIVATE METHODS
-        _checkBounds() {
-        }
         // PUBLIC METHODS
         MouseOver() {
             this.alpha = 0.7;

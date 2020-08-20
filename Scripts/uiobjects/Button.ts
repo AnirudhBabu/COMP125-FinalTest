@@ -19,11 +19,7 @@ module UIObjects
             this.Start();
         }
         
-        // PRIVATE METHODS
-        protected _checkBounds(): void {
-            
-        }
-
+        
         // PUBLIC METHODS
         MouseOver():void
         {

@@ -14,8 +14,10 @@ let Game = (function(){
     let die1Label: UIObjects.Label;
     let die2Label: UIObjects.Label;
     let rollButton: UIObjects.Button;
-    let die1Image: UIObjects.Button;
-    let die2Image: UIObjects.Button;
+    let die1Image: Core.GameObject;
+    let die2Image: Core.GameObject;
+    let background: Core.GameObject;
+    let timeElapsed: number;
 
     let assetManifest = 
     [
@@ -26,7 +28,7 @@ let Game = (function(){
         {id:"5", src:"./Assets/images/5.png"},
         {id:"6", src:"./Assets/images/6.png"},
         {id:"backButton", src:"./Assets/images/startButton.png"},
-        {id:"background", src:"./Assets/images/background.png"},
+        {id:"background", src:"./Assets/images/woodenBackground.jpg"},
         {id:"blank", src:"./Assets/images/blank.png"},
         {id:"button", src:"./Assets/images/button.png"},
         {id:"nextButton", src:"./Assets/images/nextButton.png"},
@@ -34,7 +36,8 @@ let Game = (function(){
         {id:"resetButton", src:"./Assets/images/resetButton.png"},
         {id:"rollButton", src:"./Assets/images/rollButton.png"},
         {id:"startButton", src:"./Assets/images/startButton.png"},
-        {id:"startOverButton", src:"./Assets/images/startOverButton.png"}
+        {id:"startOverButton", src:"./Assets/images/startOverButton.png"},
+        {id:"rollSound", src:"./Assets/sounds/Rolling-Dice-A1-www.fesliyanstudios.com.mp3"}
     ];
 
     /**
@@ -46,6 +49,13 @@ let Game = (function(){
         assets = new createjs.LoadQueue(); // asset container 
         assets.installPlugin(createjs.Sound); // supports sound preloading
         assets.loadManifest(assetManifest);
+
+        createjs.Sound.registerSound({id:"rollDie", src:"Assets/sounds/Rolling-Dice-A1-www.fesliyanstudios.com.mp3"});
+        createjs.Sound.on("fileload", (event)=>{
+            // A sound has been preloaded.
+            console.log("Preloaded:");
+        });    
+        
         assets.on("complete", Start);
     }
 
@@ -84,61 +94,66 @@ let Game = (function(){
         console.log(`%c Main Function`, "color: grey; font-size: 14px; font-weight: bold;");
 
         // display items initialization
-        die1Label = new UIObjects.Label("1", "24px", "Consolas", "#000000", Config.Game.CENTER_X - 150, Config.Game.CENTER_Y + 30, true);
+        background = new Core.GameObject("background", 0, 0, false);
+        stage.addChild(background);
+
+        die1Label = new UIObjects.Label("1", "24px", "Consolas", "#FFFFFF", Config.Game.CENTER_X - 150, Config.Game.CENTER_Y + 30, true);
         stage.addChild(die1Label);
 
-        die2Label = new UIObjects.Label("2", "24px", "Consolas", "#000000", Config.Game.CENTER_X + 150, Config.Game.CENTER_Y + 30, true);
+        die2Label = new UIObjects.Label("2", "24px", "Consolas", "#FFFFFF", Config.Game.CENTER_X + 150, Config.Game.CENTER_Y + 30, true);
         stage.addChild(die2Label);
 
         rollButton = new UIObjects.Button("rollButton", Config.Game.CENTER_X, Config.Game.CENTER_Y + 150, true);
         stage.addChild(rollButton);
 
-        die1Image = new UIObjects.Button("1", Config.Game.CENTER_X - 150, Config.Game.CENTER_Y - 85, true);
+        die1Image = new Core.GameObject("1", Config.Game.CENTER_X - 150, Config.Game.CENTER_Y - 85, true);
         stage.addChild(die1Image);
 
-        die2Image = new UIObjects.Button("2", Config.Game.CENTER_X + 150, Config.Game.CENTER_Y - 85, true);
+        die2Image = new Core.GameObject("2", Config.Game.CENTER_X + 150, Config.Game.CENTER_Y - 85, true);
         stage.addChild(die2Image);
-
-        //disabling the mouseover event for the dice images by activating mouseout 
-        //when mouseover occurs
-        die1Image.on("mouseover", ()=>{
-            let myOut = new Event("mouseout");
-            die1Image.dispatchEvent(myOut);
-        });
-
-        die2Image.on("mouseover", ()=>{
-            let myOut = new Event("mouseout");
-            die2Image.dispatchEvent(myOut);
-        });
 
         //Rolling and updating the dice images and label occurs here
         rollButton.on("click", ()=>{
             console.log("roll button clicked");
+            createjs.Sound.play("rollDie");
 
-            //dice rolls
-            let randomRoll1 = parseInt(Util.Mathf.RandomRange(1, 6).toString()).toString();
-            let randomRoll2 = parseInt(Util.Mathf.RandomRange(1, 6).toString()).toString();
-
-            //updating the stage
-            stage.removeChild(die1Image);
-            die1Image = new UIObjects.Button(randomRoll1, Config.Game.CENTER_X - 150, Config.Game.CENTER_Y - 85, true);
-            stage.addChild(die1Image);
-
-            stage.removeChild(die1Label);
-            die1Label = new UIObjects.Label(randomRoll1, "24px", "Consolas", "#000000", Config.Game.CENTER_X - 150, Config.Game.CENTER_Y + 30, true);
-            stage.addChild(die1Label);
-        
-            stage.removeChild(die2Image);
-            die2Image = new UIObjects.Button(randomRoll2, Config.Game.CENTER_X + 150, Config.Game.CENTER_Y - 85, true);
-            stage.addChild(die2Image);
-            
-            stage.removeChild(die2Label);
-            die2Label = new UIObjects.Label(randomRoll2, "24px", "Consolas", "#000000", Config.Game.CENTER_X + 150, Config.Game.CENTER_Y + 30, true);
-            stage.addChild(die2Label); 
-                
+            createjs.Ticker.framerate = Config.Game.FPS;
+            timeElapsed = parseInt(createjs.Ticker.getTime().toString());
+            createjs.Ticker.addEventListener('tick', Animate);        
         });        
     }
+    function Animate(){
+        let randomRollA1 = parseInt(Util.Mathf.RandomRange(1, 6).toString()).toString();
+        let randomRollA2 = parseInt(Util.Mathf.RandomRange(1, 6).toString()).toString();
 
+        //repeated removal and recreation gives an animation effect
+        stage.removeChild(die1Image);
+        die1Image = new Core.GameObject(randomRollA1, Config.Game.CENTER_X - 150, Config.Game.CENTER_Y - 85, true);
+        stage.addChild(die1Image);
+
+        stage.removeChild(die1Label);
+        die1Label = new UIObjects.Label(randomRollA1, "24px", "Consolas", "#FFFFFF", Config.Game.CENTER_X - 150, Config.Game.CENTER_Y + 30, true);
+        console.log(randomRollA1);
+        stage.addChild(die1Label);
+
+        stage.removeChild(die2Image);
+        die2Image = new Core.GameObject(randomRollA2, Config.Game.CENTER_X + 150, Config.Game.CENTER_Y - 85, true);
+        stage.addChild(die2Image);
+
+        stage.removeChild(die2Label);
+        die2Label = new UIObjects.Label(randomRollA2, "24px", "Consolas", "#FFFFFF", Config.Game.CENTER_X + 150, Config.Game.CENTER_Y + 30, true);
+        console.log(randomRollA2);
+        stage.addChild(die2Label);
+    
+        stage.update();
+
+        //When Ticker has been running for approximate duration of the sound,
+        // the event listener that invokes this function is removed
+        if(createjs.Ticker.getTime() - timeElapsed >= 2800){
+            
+            createjs.Ticker.removeEventListener('tick', Animate);
+        }
+    }
     window.addEventListener('load', Preload);
 
 

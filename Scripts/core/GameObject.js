@@ -85,6 +85,15 @@ var Core;
             this.regX = this.halfWidth;
             this.regY = this.halfHeight;
         }
+        _checkBounds() {
+        }
+        // PUBLIC METHODS
+        Start() {
+        }
+        Update() {
+        }
+        Reset() {
+        }
     }
     Core.GameObject = GameObject;
 })(Core || (Core = {}));

@@ -6,7 +6,7 @@
 
 module Core
 {
-    export abstract class GameObject extends createjs.Bitmap
+    export class GameObject extends createjs.Bitmap
     {
         // PRIVATE INSTANCE MEMBERS
         private _width:number;
@@ -139,16 +139,23 @@ module Core
             this.regY = this.halfHeight;
         }
 
-        protected abstract _checkBounds():void;
+        protected _checkBounds():void{
+
+        }
 
 
         // PUBLIC METHODS
+        public Start():void{
 
-        public abstract Start():void;
+        }
 
-        public abstract Update():void;
+        public Update():void{
+
+        }
         
-        public abstract Reset():void;
+        public Reset():void{
+
+        }
 
     }
 
