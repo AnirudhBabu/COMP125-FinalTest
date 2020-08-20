@@ -1,3 +1,8 @@
+/* Filename: game.ts
+   Author's name: Anirudh Babu
+   Student no.: 301105250
+   File Description: Responsible for managing the game
+*/
 let Game = (function(){
 
     // variable declarations
@@ -32,6 +37,9 @@ let Game = (function(){
         {id:"startOverButton", src:"./Assets/images/startOverButton.png"}
     ];
 
+    /**
+     * This function delays the loading of components until all assets have been loaded
+     */
     function Preload():void
     {
         console.log(`%c Preload Function`, "color: grey; font-size: 14px; font-weight: bold;");
@@ -75,13 +83,14 @@ let Game = (function(){
     {
         console.log(`%c Main Function`, "color: grey; font-size: 14px; font-weight: bold;");
 
+        // display items initialization
         die1Label = new UIObjects.Label("1", "24px", "Consolas", "#000000", Config.Game.CENTER_X - 150, Config.Game.CENTER_Y + 30, true);
         stage.addChild(die1Label);
 
         die2Label = new UIObjects.Label("2", "24px", "Consolas", "#000000", Config.Game.CENTER_X + 150, Config.Game.CENTER_Y + 30, true);
         stage.addChild(die2Label);
 
-        rollButton = new UIObjects.Button("rollButton", Config.Game.CENTER_X, Config.Game.CENTER_Y + 100, true);
+        rollButton = new UIObjects.Button("rollButton", Config.Game.CENTER_X, Config.Game.CENTER_Y + 150, true);
         stage.addChild(rollButton);
 
         die1Image = new UIObjects.Button("1", Config.Game.CENTER_X - 150, Config.Game.CENTER_Y - 85, true);
@@ -90,6 +99,8 @@ let Game = (function(){
         die2Image = new UIObjects.Button("2", Config.Game.CENTER_X + 150, Config.Game.CENTER_Y - 85, true);
         stage.addChild(die2Image);
 
+        //disabling the mouseover event for the dice images by activating mouseout 
+        //when mouseover occurs
         die1Image.on("mouseover", ()=>{
             let myOut = new Event("mouseout");
             die1Image.dispatchEvent(myOut);
@@ -100,14 +111,15 @@ let Game = (function(){
             die2Image.dispatchEvent(myOut);
         });
 
+        //Rolling and updating the dice images and label occurs here
         rollButton.on("click", ()=>{
             console.log("roll button clicked");
+
+            //dice rolls
             let randomRoll1 = parseInt(Util.Mathf.RandomRange(1, 6).toString()).toString();
             let randomRoll2 = parseInt(Util.Mathf.RandomRange(1, 6).toString()).toString();
 
-            console.log(randomRoll1);
-            console.log(randomRoll2);
-
+            //updating the stage
             stage.removeChild(die1Image);
             die1Image = new UIObjects.Button(randomRoll1, Config.Game.CENTER_X - 150, Config.Game.CENTER_Y - 85, true);
             stage.addChild(die1Image);

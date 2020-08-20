@@ -1,4 +1,9 @@
-module UIObjects
+/* Filename: game.ts
+   Author's name: Anirudh Babu
+   Student no.: 301105250
+   File description: Serves as the bluprint for labels
+*/
+   module UIObjects
 {
     export class Label extends createjs.Text
     {

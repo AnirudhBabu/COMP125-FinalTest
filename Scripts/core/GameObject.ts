@@ -1,3 +1,9 @@
+/* Filename: GameObject.ts
+   Author's name: Anirudh Babu
+   Student no.: 301105250
+   File description: Serves as a base for Button
+*/
+
 module Core
 {
     export abstract class GameObject extends createjs.Bitmap

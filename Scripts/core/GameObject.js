@@ -1,4 +1,9 @@
 "use strict";
+/* Filename: GameObject.ts
+   Author's name: Anirudh Babu
+   Student no.: 301105250
+   File description: Serves as a base for Button
+*/
 var Core;
 (function (Core) {
     class GameObject extends createjs.Bitmap {

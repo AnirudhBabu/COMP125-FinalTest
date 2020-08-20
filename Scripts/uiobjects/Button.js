@@ -1,4 +1,10 @@
 "use strict";
+/* Filename: Button.ts
+   Author's name: Anirudh Babu
+   Student no.: 301105250
+   File description: Serves as the bluePrint for a button as well as a die image
+   (with slight tweaks)
+*/
 var UIObjects;
 (function (UIObjects) {
     class Button extends Core.GameObject {
