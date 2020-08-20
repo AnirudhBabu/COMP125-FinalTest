@@ -4,8 +4,11 @@ let Game = (function () {
     let canvas = document.getElementsByTagName('canvas')[0];
     let stage;
     let assets;
-    let exampleLabel;
-    let exampleButton;
+    let die1Label;
+    let die2Label;
+    let rollButton;
+    let die1Image;
+    let die2Image;
     let assetManifest = [
         { id: "1", src: "./Assets/images/1.png" },
         { id: "2", src: "./Assets/images/2.png" },
@@ -57,12 +60,42 @@ let Game = (function () {
      */
     function Main() {
         console.log(`%c Main Function`, "color: grey; font-size: 14px; font-weight: bold;");
-        exampleLabel = new UIObjects.Label("An Example Label", "40px", "Consolas", "#000000", Config.Game.CENTER_X, Config.Game.CENTER_Y, true);
-        stage.addChild(exampleLabel);
-        exampleButton = new UIObjects.Button("button", Config.Game.CENTER_X, Config.Game.CENTER_Y + 100, true);
-        stage.addChild(exampleButton);
-        exampleButton.on("click", () => {
-            console.log("example button clicked");
+        die1Label = new UIObjects.Label("1", "24px", "Consolas", "#000000", Config.Game.CENTER_X - 150, Config.Game.CENTER_Y + 30, true);
+        stage.addChild(die1Label);
+        die2Label = new UIObjects.Label("2", "24px", "Consolas", "#000000", Config.Game.CENTER_X + 150, Config.Game.CENTER_Y + 30, true);
+        stage.addChild(die2Label);
+        rollButton = new UIObjects.Button("rollButton", Config.Game.CENTER_X, Config.Game.CENTER_Y + 100, true);
+        stage.addChild(rollButton);
+        die1Image = new UIObjects.Button("1", Config.Game.CENTER_X - 150, Config.Game.CENTER_Y - 85, true);
+        stage.addChild(die1Image);
+        die2Image = new UIObjects.Button("2", Config.Game.CENTER_X + 150, Config.Game.CENTER_Y - 85, true);
+        stage.addChild(die2Image);
+        die1Image.on("mouseover", () => {
+            let myOut = new Event("mouseout");
+            die1Image.dispatchEvent(myOut);
+        });
+        die2Image.on("mouseover", () => {
+            let myOut = new Event("mouseout");
+            die2Image.dispatchEvent(myOut);
+        });
+        rollButton.on("click", () => {
+            console.log("roll button clicked");
+            let randomRoll1 = parseInt(Util.Mathf.RandomRange(1, 6).toString()).toString();
+            let randomRoll2 = parseInt(Util.Mathf.RandomRange(1, 6).toString()).toString();
+            console.log(randomRoll1);
+            console.log(randomRoll2);
+            stage.removeChild(die1Image);
+            die1Image = new UIObjects.Button(randomRoll1, Config.Game.CENTER_X - 150, Config.Game.CENTER_Y - 85, true);
+            stage.addChild(die1Image);
+            stage.removeChild(die1Label);
+            die1Label = new UIObjects.Label(randomRoll1, "24px", "Consolas", "#000000", Config.Game.CENTER_X - 150, Config.Game.CENTER_Y + 30, true);
+            stage.addChild(die1Label);
+            stage.removeChild(die2Image);
+            die2Image = new UIObjects.Button(randomRoll2, Config.Game.CENTER_X + 150, Config.Game.CENTER_Y - 85, true);
+            stage.addChild(die2Image);
+            stage.removeChild(die2Label);
+            die2Label = new UIObjects.Label(randomRoll2, "24px", "Consolas", "#000000", Config.Game.CENTER_X + 150, Config.Game.CENTER_Y + 30, true);
+            stage.addChild(die2Label);
         });
     }
     window.addEventListener('load', Preload);
