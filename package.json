@@ -19,6 +19,6 @@
     "@types/tweenjs": "^1.0.0"
   },
   "scripts": {
-    "start": "node game.js"
+    "start": "node ./Scripts/core/game.js"
   }
 }
