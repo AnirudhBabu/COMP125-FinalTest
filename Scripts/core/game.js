@@ -46,7 +46,6 @@ let Game = (function () {
         createjs.Sound.registerSound({ id: "rollDie", src: "Assets/sounds/Rolling-Dice-A1-www.fesliyanstudios.com.mp3" });
         createjs.Sound.on("fileload", (event) => {
             // A sound has been preloaded.
-            console.log("Preloaded:");
         });
         assets.on("complete", Start);
     }
@@ -107,14 +106,12 @@ let Game = (function () {
         stage.addChild(die1Image);
         stage.removeChild(die1Label);
         die1Label = new UIObjects.Label(randomRollA1, "24px", "Consolas", "#FFFFFF", Config.Game.CENTER_X - 150, Config.Game.CENTER_Y + 30, true);
-        console.log(randomRollA1);
         stage.addChild(die1Label);
         stage.removeChild(die2Image);
         die2Image = new Core.GameObject(randomRollA2, Config.Game.CENTER_X + 150, Config.Game.CENTER_Y - 85, true);
         stage.addChild(die2Image);
         stage.removeChild(die2Label);
         die2Label = new UIObjects.Label(randomRollA2, "24px", "Consolas", "#FFFFFF", Config.Game.CENTER_X + 150, Config.Game.CENTER_Y + 30, true);
-        console.log(randomRollA2);
         stage.addChild(die2Label);
         stage.update();
         //When Ticker has been running for approximate duration of the sound,

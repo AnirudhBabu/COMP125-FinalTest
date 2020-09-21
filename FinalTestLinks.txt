@@ -1,0 +1,8 @@
+Link to GitHub repo:
+https://github.com/AnirudhBabu/COMP125-FinalTest
+
+Link to website hosted on GitHub Pages:
+https://anirudhbabu.github.io/COMP125-FinalTest/
+
+Link to demo video:
+https://youtu.be/lMjB0CeFMt8
