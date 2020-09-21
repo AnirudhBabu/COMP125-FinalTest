@@ -17,7 +17,7 @@
     "@types/preloadjs": "^0.6.32",
     "@types/soundjs": "^0.6.27",
     "@types/tweenjs": "^1.0.0"
-  }
+  },
   "scripts": {
     "start": "node game.js"
   }
